@@ -1,14 +1,25 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
+import {useWeather} from "../hooks/useWeather";
+import {useSHistory} from "../hooks/useMyHistory";
 
 interface FormProps {
-    submit: (cityName: string) => void
-    error: string
+
 }
 
-const Form: FC<FormProps> = ({submit, error}) => {
+const Form: FC<FormProps> = () => {
 
     const popular = ["Москва", "Санкт-Петербург", "Нью-йорк", "Лондон"]
     const [data, setData] = useState<string>("")
+
+    const {fetchData, error, data: weatherData} = useWeather()
+    const {historyChangeHandler} = useSHistory()
+
+    useEffect(() => {
+        if (weatherData && weatherData.name !== data) {
+            setData(weatherData.name)
+        }
+        // setData(weatherData)
+    }, [weatherData])
 
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setData(e.target.value)
@@ -19,7 +30,8 @@ const Form: FC<FormProps> = ({submit, error}) => {
             alert("Поле не должно быть пустым")
             return
         }
-        submit(data)
+            historyChangeHandler(data)
+            fetchData(data)
     }
 
     const keyPressHandler = (e: React.KeyboardEvent) => {
@@ -30,7 +42,8 @@ const Form: FC<FormProps> = ({submit, error}) => {
 
     const handlePopularClick = async (city: string) => {
         setData(city)
-        submit(city)
+        fetchData(city)
+        historyChangeHandler(city)
     }
 
     return (
@@ -58,7 +71,7 @@ const Form: FC<FormProps> = ({submit, error}) => {
             <div className="d-flex mb-5">
                 {
                     popular.map(city => {
-                        return <span role="button" onClick={() => handlePopularClick(city)} className="badge bg-secondary me-2">
+                        return <span key={city} role="button" onClick={() => handlePopularClick(city)} className="badge bg-secondary me-2">
                             {city}
                         </span>
                     })
