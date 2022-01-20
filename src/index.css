@@ -31,3 +31,12 @@ code {
   padding: 25px;
   border-radius: 10px;
 }
+
+.sideBar {
+  height: 540px;
+  width: 200px;
+  background: #738184;
+  padding: 25px;
+  border-radius: 10px;
+  margin-right: 20px;
+}

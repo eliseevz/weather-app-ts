@@ -17,7 +17,7 @@ const ResultContent: FC<ResultContentProps> = ({data}) => {
                 <img src={imgURL}/>
             </div>
             <div className="fs-5 mb-2">
-                <strong>{data?.weather[0].description}</strong> шо пизда
+                <strong>{data?.weather[0].description}</strong>
             </div>
             <div className="mb-2 fs-5">
                 Температура: <strong>{myCeil(data?.main.temp)}°</strong>

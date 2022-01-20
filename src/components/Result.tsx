@@ -3,13 +3,15 @@ import {IResponse} from "../types";
 import Loader from "./Loader/Loader";
 import skyImg from "../assets/sky2.png"
 import ResultContent from "./ResultContent";
+import {useWeather} from "../hooks/useWeather";
 
 interface ResultProps {
-    data: IResponse | null
-    loading: boolean
+
 }
 
-const Result: FC<ResultProps> = ({data, loading}) => {
+const Result: FC<ResultProps> = () => {
+
+    const {loading, data} = useWeather()
 
     if (!data && !loading) {
         return <div className="d-flex flex-column align-items-center justify-content-center mt-5">
